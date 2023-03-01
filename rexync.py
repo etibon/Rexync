@@ -6,6 +6,7 @@ from os.path import isfile, join
 import yaml
 from yaml import load, FullLoader
 import re
+from glob import glob
 
 
 def load_config():
@@ -55,7 +56,7 @@ def copy_file(from_dir, file_name, metadata):
     season = metadata["season"]
     dest_dir = os.path.join(dest_base_dir, metadata["title"], f"Season {season}")
     os.makedirs(dest_dir, exist_ok=True)
-    dest_link = os.path.join(dest_dir, file_name)
+    dest_link = os.path.join(dest_dir, os.path.basename(file_name))
 
     if not os.path.exists(dest_link):
         os.link(link_src, dest_link)
@@ -66,11 +67,12 @@ def copy_file(from_dir, file_name, metadata):
 
 def process_dir(dir_name):
     print(f"Processing folder {dir_name} ...")
-    onlyfiles = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
+    onlyfiles = [os.path.relpath(y, dir_name) for x in os.walk(dir_name) for y in glob(os.path.join(x[0], '*'))]
+    # onlyfiles = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
     processed_files=[]
     for file in onlyfiles:
-        res = match_name(file)
+        res = match_name(os.path.basename(file))
         if res:
             print(f"Identified match for file {file}...")
             copy_file(dir_name, file, res)
