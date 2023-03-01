@@ -14,7 +14,7 @@ def load_config():
         stream = open("rexync_conf.yml", "r")
     except:
         try:
-            stream = open("/etc/rexync.conf.yml", "r")
+            stream = open("/etc/rexync_conf.yml", "r")
         except:
             print("Unable to open rexync_conf.yml")
             exit(-1)
