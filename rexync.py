@@ -84,5 +84,9 @@ def process_dir(dir_name):
 if __name__ == '__main__':
     load_config()
 
+    if len(sys.argv) < 2:
+        print("Please provide an input directory.")
+        exit(-1)
+
     print(process_dir(sys.argv[1]))
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
