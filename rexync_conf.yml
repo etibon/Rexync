@@ -7,3 +7,4 @@ rexync:
         pattern: (.*)\.S(\d\d)E(\d\d)\.([^\.]*)\.([^\.]*)\.mp4
         description: ShowRSS
         capture_groups: ["title", "season", "episode", "type", "encoder"]
+        category: show

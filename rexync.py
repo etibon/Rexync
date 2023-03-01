@@ -32,8 +32,9 @@ def load_config():
         pattern = rule["rule"]["pattern"]
         description = rule["rule"]["description"]
         capture_groups = rule["rule"]["capture_groups"]
+        category = rules["rule"]["category"]
 
-        rules[pattern] = { "description": description, "capture_groups": capture_groups }
+        rules[pattern] = { "description": description, "capture_groups": capture_groups, "categroy": category }
 
     print(f"Loaded {len(rules)} rules from {conf_path}")
 
@@ -43,10 +44,12 @@ def match_name(f_name):
         if res:
             desc = rules[key]["description"]
             cgroups = rules[key]["capture_groups"]
+            rule_category = rules[key]["category"]
 
-            info = { n: v for (n, v) in zip(cgroups, [g for g in res.groups()])}
+            if rule_category == category:
+                info = { n: v for (n, v) in zip(cgroups, [g for g in res.groups()])}
 
-            return info
+                return info
 
     return False
 
@@ -87,6 +90,8 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Please provide an input directory.")
         exit(-1)
+    global category
+    category = sys.argv[2]
 
     process_dir(sys.argv[1])
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
