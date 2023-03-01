@@ -1,0 +1,9 @@
+rexync:
+  source_dir: ./source
+  dest_base_dir: ./dest
+  rules:
+    -
+      rule:
+        pattern: (.*)\.S(\d\d)E(\d\d)\.([^\.]*)\.([^\.]*)\.mp4
+        description: ShowRSS
+        capture_groups: ["title", "season", "episode", "type", "encoder"]
