@@ -28,13 +28,15 @@ def load_config():
     rules={}
     yaml_conf = load(stream, Loader=yaml.FullLoader)["rexync"]
 
-    for rule in yaml_conf["rules"]:
-        pattern = rule["rule"]["pattern"]
-        description = rule["rule"]["description"]
-        capture_groups = rule["rule"]["capture_groups"]
-        category = rules["rule"]["category"]
+    print(yaml_conf)
 
-        rules[pattern] = { "description": description, "capture_groups": capture_groups, "categroy": category }
+    for rule in yaml_conf["rules"]:
+        pattern = rule["pattern"]
+        description = rule["description"]
+        capture_groups = rule["capture_groups"]
+        category = rule["category"]
+
+        rules[pattern] = { "description": description, "capture_groups": capture_groups, "category": category }
 
     print(f"Loaded {len(rules)} rules from {conf_path}")
 
@@ -56,8 +58,12 @@ def match_name(f_name):
 def copy_file(from_dir, file_name, metadata):
     dest_base_dir = yaml_conf["dest_base_dir"]
     link_src = os.path.join(from_dir, file_name)
-    season = metadata["season"]
-    dest_dir = os.path.join(dest_base_dir, metadata["title"], f"Season {season}")
+    if category=="shows":
+        season = metadata["season"]
+        dest_dir = os.path.join(dest_base_dir, category, metadata["title"], f"Season {season}")
+    else:
+        dest_dir = os.path.join(dest_base_dir, category)
+
     os.makedirs(dest_dir, exist_ok=True)
     dest_link = os.path.join(dest_dir, os.path.basename(file_name))
 
@@ -87,8 +93,8 @@ def process_dir(dir_name):
 if __name__ == '__main__':
     load_config()
 
-    if len(sys.argv) < 2:
-        print("Please provide an input directory.")
+    if len(sys.argv) < 3:
+        print("Please provide an input directory and a category")
         exit(-1)
     global category
     category = sys.argv[2]
