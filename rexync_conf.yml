@@ -6,10 +6,12 @@ rexync:
         pattern: (.*)\.S(\d\d)E(\d\d)\.([^\.]*)\.([^\.]*)\.mp4
         description: ShowRSS
         capture_groups: ["title", "season", "episode", "type", "encoder"]
+        search_subtitles: Subs/*.srt
         category: shows
     -
         pattern: (.*)\.[mp4|mkv]
         description: Generic Movie
         capture_groups: ["title", "ext"]
+        search_subtitles: Subs/*.srt
         category: movies
 
