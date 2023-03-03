@@ -6,7 +6,7 @@ from os.path import isfile, join
 import yaml
 from yaml import load, FullLoader
 import re
-from glob import glob
+from glob import glob, escape
 
 
 def load_config():
@@ -80,7 +80,7 @@ def link_file(from_dir, src_file_name, dst_file_name, metadata):
 
 def process_dir(dir_name):
     print(f"Processing folder {dir_name} ...")
-    onlyfiles = [os.path.relpath(y, dir_name) for x in os.walk(dir_name) for y in glob(os.path.join(x[0], '*'))]
+    onlyfiles = [os.path.relpath(y, dir_name) for x in os.walk(dir_name) for y in glob(os.path.join(escape(x[0]), '*'))]
     # onlyfiles = [f for f in listdir(dir_name) if isfile(join(dir_name, f))]
 
     processed_files = []

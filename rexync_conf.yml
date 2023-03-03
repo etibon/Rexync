@@ -3,7 +3,7 @@ rexync:
   dest_base_dir: ./dest
   rules:
     -
-        pattern: (.*)\.S(\d\d)E(\d\d)\.([^\.]*)\.([^\.]*)\.mp4
+        pattern: (.*)\.[Ss](\d\d)[Ee](\d\d)\.([^\.]*)\.(.*)\.[mp4|mkv]
         description: ShowRSS
         capture_groups: ["title", "season", "episode", "type", "encoder"]
         search_subtitles: Subs/*.srt
